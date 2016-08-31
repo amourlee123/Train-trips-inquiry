@@ -55,9 +55,9 @@ class TrainCollection(object):
 				# 车次
 				row['station_train_code'],
 				# 出发、到达站
-				'\n'.join([row['from_station_name'], row['to_station_name']]),
+				'\n'.join( [colored( 'green', row['from_station_name'] ), colored('red',row['to_station_name'])]),
 				# 出发、到达时间
-				'\n'.join([row['start_time'], row['arrive_time']]),
+				'\n'.join( [colored( 'green', row['start_time'] ), colored( 'red', row['arrive_time'])]),
 				# 历时
 				self._get_duration(row),
 				#商务座
@@ -94,6 +94,17 @@ class TrainCollection(object):
 	
 		print(pt)
 
+def colored(color, text):
+	table = {
+		'red': '\033[91m',
+		'green': '\033[92m',
+		'nc': '\033[0m'
+	}
+
+	cv = table.get(color)
+	nc = table.get('nc')
+	return ''.join([cv, text, nc])
+
 
 def cli():
 	arguments = docopt(__doc__)
@@ -110,17 +121,6 @@ def cli():
 	trains = TrainCollection(rows)
 	trains.pretty_print()
 
-#def colored(color, text):
-#	table = {
-#		'red': '\033[91m',
-#		'green': '\033[92m',
-#		'nc': "\033[0"
-#	}
-#
-#	cv = table.get(color)
-#	nc = table.get('nv')
-#
-#	return ''.join([cv, text, nc])
 
 
 
